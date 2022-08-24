@@ -1,6 +1,4 @@
 class ForecastsController < ApplicationController
-
-
     def index
         # Get city query from Params or Request Body
         query = params[:query]
@@ -39,10 +37,11 @@ class ForecastsController < ApplicationController
         
                     # Append forecast data into city data
                     city['forecast'] = daily_forecast_arr
+                    city['min_temp'] = daily_forecast_arr[0]['temp']['min']
                 end
                 
                 # Prepare JSON response
-                response = cities
+                response = cities.sort_by { |i| i['min_temp']}
         
                 # Render JSON response to the client
                 render json: response
